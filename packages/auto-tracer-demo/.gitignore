@@ -1,0 +1,10 @@
+node_modules
+dist
+.turbo
+playwright-report
+test-results
+coverage
+.DS_Store
+*.log
+.vscode
+.idea

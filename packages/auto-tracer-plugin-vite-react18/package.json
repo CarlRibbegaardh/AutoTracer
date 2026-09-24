@@ -1,0 +1,55 @@
+{
+  "name": "@autotracer/plugin-vite-react18",
+  "version": "1.0.0-alpha.55",
+  "description": "Vite plugin for auto-injecting useReactTracer via unplugin",
+  "author": "Carl Ribbegårdh",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "pnpm run clean",
+    "postbuild": "tsc --project ./tests/tsconfig.json --noEmit",
+    "clean": "rimraf dist coverage",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@autotracer/inject-react18": "workspace:*",
+    "@autotracer/react18": "workspace:*",
+    "rollup-plugin-external-globals": "^0.13.0",
+    "unplugin": "^1.5.0"
+  },
+  "peerDependencies": {
+    "@autotracer/react18": "1.0.0-alpha.55",
+    "vite": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@autotracer/react18": {
+      "optional": false
+    },
+    "vite": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "jsdom": "^24.1.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.61.1",
+    "typescript": "^5.2.0",
+    "vitest": "^4.0.18"
+  },
+  "sideEffects": false
+}

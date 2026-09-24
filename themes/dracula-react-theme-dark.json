@@ -1,0 +1,69 @@
+{
+  "definitiveRender": {
+    "icon": "⚡",
+    "darkMode": {
+      "text": "#FF79C6"
+    }
+  },
+  "propInitial": {
+    "darkMode": {
+      "text": "#8BE9FD",
+      "italic": true
+    }
+  },
+  "propChange": {
+    "darkMode": {
+      "text": "#8BE9FD"
+    }
+  },
+  "stateInitial": {
+    "darkMode": {
+      "text": "#BD93F9",
+      "italic": true
+    }
+  },
+  "stateChange": {
+    "darkMode": {
+      "text": "#BD93F9"
+    }
+  },
+  "logStatements": {
+    "darkMode": {
+      "text": "#50FA7B"
+    }
+  },
+  "warnStatements": {
+    "darkMode": {
+      "text": "#F1FA8C",
+      "bold": true
+    }
+  },
+  "errorStatements": {
+    "darkMode": {
+      "text": "#FF5555",
+      "bold": true
+    }
+  },
+  "reconciled": {
+    "darkMode": {
+      "text": "#6272A4"
+    }
+  },
+  "skipped": {
+    "darkMode": {
+      "text": "#6272A4"
+    }
+  },
+  "identicalStateValueWarning": {
+    "darkMode": {
+      "text": "#F1FA8C",
+      "bold": true
+    }
+  },
+  "identicalPropValueWarning": {
+    "darkMode": {
+      "text": "#F1FA8C",
+      "bold": true
+    }
+  }
+}

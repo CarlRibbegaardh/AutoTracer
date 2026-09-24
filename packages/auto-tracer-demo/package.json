@@ -1,0 +1,74 @@
+{
+  "name": "@autotracer/demo",
+  "version": "1.0.0-alpha.55",
+  "description": "Production-ready task management demo showcasing ReactTracer's full tracing capabilities",
+  "author": "Carl Ribbegårdh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CarlRibbegaardh/AutoTracer"
+  },
+  "bugs": {
+    "url": "https://github.com/CarlRibbegaardh/AutoTracer/issues"
+  },
+  "homepage": "https://github.com/CarlRibbegaardh/AutoTracer",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf dist",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug"
+  },
+  "dependencies": {
+    "@autotracer/dashboard": "workspace:*",
+    "@autotracer/flow": "workspace:*",
+    "@autotracer/logger": "workspace:*",
+    "@autotracer/network": "workspace:*",
+    "@autotracer/react18": "workspace:*",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.3.0",
+    "@mui/material": "^6.3.0",
+    "@mui/x-data-grid": "^7.23.2",
+    "@reduxjs/toolkit": "^2.0.0",
+    "@tanstack/react-query": "^5.62.7",
+    "date-fns": "^4.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "react-redux": "^9.0.0",
+    "react-router-dom": "^7.1.1",
+    "recharts": "^2.15.0",
+    "reselect": "^5.1.1"
+  },
+  "devDependencies": {
+    "@autotracer/plugin-vite-flow": "workspace:*",
+    "@autotracer/plugin-vite-network": "workspace:*",
+    "@autotracer/plugin-vite-react18": "workspace:*",
+    "@playwright/test": "^1.47.0",
+    "@types/node": "^22.12.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "msw": "^2.7.0",
+    "rimraf": "^6.0.1",
+    "rollup": "4.61.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}

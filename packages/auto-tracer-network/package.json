@@ -1,0 +1,59 @@
+{
+  "name": "@autotracer/network",
+  "version": "1.0.0-alpha.55",
+  "description": "Browser network tracing for AutoTracer",
+  "author": "Carl Ribbegårdh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CarlRibbegaardh/AutoTracer"
+  },
+  "bugs": {
+    "url": "https://github.com/CarlRibbegaardh/AutoTracer/issues"
+  },
+  "homepage": "https://github.com/CarlRibbegaardh/AutoTracer",
+  "type": "module",
+  "dependencies": {
+    "@autotracer/filter-utils": "workspace:*",
+    "safe-stable-stringify": "^2.4.3"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc --emitDeclarationOnly && pnpm run check:typescript6 && vite build",
+    "check:typescript6": "tsc6 --project tsconfig.typescript6.json",
+    "prebuild": "pnpm run clean",
+    "postbuild": "tsc --project ./tests/tsconfig.json --noEmit && pnpm run check:typescript6:consumer",
+    "check:typescript6:consumer": "tsc6 --project tests/typescript6-consumer/tsconfig.json",
+    "clean": "rimraf dist coverage",
+    "lint": "oxlint src",
+    "lint:fix": "oxlint src --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:coverage:ci": "vitest run --mode ci --coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "@typescript/typescript6": "~6.0.2",
+    "@vitest/coverage-v8": "4.1.10",
+    "eslint-plugin-local-rules": "workspace:*",
+    "eslint-plugin-sort-exports": "^0.9.1",
+    "oxlint": "1.77.0",
+    "rimraf": "^6.0.1",
+    "rollup": "4.61.1",
+    "typescript": "~7.0.2",
+    "vite": "8.2.1",
+    "vitest": "4.1.10"
+  }
+}

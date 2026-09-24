@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "rootDir": "..",
+    "noEmit": true,
+    "paths": {
+      "@src/*": ["../src/*"],
+      "@tests/*": ["./*"]
+    }
+  },
+  "include": ["../src", "."],
+  "exclude": ["typescript6-consumer"]
+}

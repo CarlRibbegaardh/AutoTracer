@@ -1,0 +1,92 @@
+{
+  "asyncStart": {
+    "icon": "🚀",
+    "lightMode": {
+      "text": "#795e26",
+      "bold": true,
+      "italic": true
+    },
+    "darkMode": {
+      "text": "#dcdcaa",
+      "bold": true,
+      "italic": true
+    }
+  },
+  "asyncComplete": {
+    "icon": "✅",
+    "lightMode": {
+      "text": "#795e26",
+      "bold": true,
+      "italic": true
+    },
+    "darkMode": {
+      "text": "#dcdcaa",
+      "bold": true,
+      "italic": true
+    }
+  },
+  "functionEnter": {
+    "icon": "→",
+    "lightMode": {
+      "text": "#795e26",
+      "bold": true
+    },
+    "darkMode": {
+      "text": "#dcdcaa",
+      "bold": true
+    }
+  },
+  "functionExit": {
+    "icon": "←",
+    "lightMode": {
+      "text": "#795e26",
+      "bold": true
+    },
+    "darkMode": {
+      "text": "#dcdcaa",
+      "bold": true
+    }
+  },
+  "parameter": {
+    "icon": "📌",
+    "lightMode": {
+      "text": "#0451a5",
+      "italic": true
+    },
+    "darkMode": {
+      "text": "#9cdcfe",
+      "italic": true
+    }
+  },
+  "returnValue": {
+    "icon": "↩️",
+    "lightMode": {
+      "text": "#267f99"
+    },
+    "darkMode": {
+      "text": "#4ec9b0"
+    }
+  },
+  "exception": {
+    "icon": "💥",
+    "lightMode": {
+      "text": "#cd3131",
+      "background": "#f8d7da",
+      "bold": true
+    },
+    "darkMode": {
+      "text": "#f44747",
+      "background": "#3e2725",
+      "bold": true
+    }
+  },
+  "runtimeControl": {
+    "icon": "🔧",
+    "lightMode": {
+      "text": "#008000"
+    },
+    "darkMode": {
+      "text": "#6a9955"
+    }
+  }
+}

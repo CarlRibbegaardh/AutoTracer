@@ -1,0 +1,57 @@
+{
+  "name": "@autotracer/plugin-babel-react19",
+  "version": "1.0.0-alpha.55",
+  "description": "Babel plugin for auto-injecting useReactTracer in React 19 applications",
+  "author": "Carl Ribbeg\u00e5rdh",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "pnpm run check:typescript6 && tsc --project tsconfig.build.json && rollup -c rollup.config.mjs",
+    "prebuild": "pnpm run clean",
+    "postbuild": "tsc --project ./tests/tsconfig.json --noEmit && pnpm run check:typescript6:consumer",
+    "check:typescript6": "tsc6 --project tsconfig.typescript6.json",
+    "check:typescript6:consumer": "tsc6 --project tests/typescript6-consumer/tsconfig.json",
+    "clean": "rimraf dist .build coverage",
+    "lint": "oxlint src tests",
+    "lint:fix": "oxlint src tests --fix",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0"
+  },
+  "dependencies": {
+    "@autotracer/inject-react19": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.0",
+    "@babel/parser": "^7.28.5",
+    "@babel/types": "^7.25.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@types/babel__core": "^7.20.0",
+    "@types/babel__traverse": "^7.20.0",
+    "@types/node": "^22.12.0",
+    "@typescript/typescript6": "~6.0.2",
+    "@vitest/coverage-v8": "4.1.10",
+    "oxlint": "1.77.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.61.1",
+    "typescript": "~7.0.2",
+    "vitest": "4.1.10"
+  },
+  "sideEffects": false
+}

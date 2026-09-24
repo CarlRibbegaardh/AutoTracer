@@ -1,0 +1,126 @@
+{
+  "definitiveRender": {
+    "icon": "🔄",
+    "lightMode": {
+      "text": "#0000ff",
+      "bold": true
+    },
+    "darkMode": {
+      "text": "#569cd6",
+      "bold": true
+    }
+  },
+  "propInitial": {
+    "icon": "📥",
+    "lightMode": {
+      "text": "#267f99",
+      "italic": true
+    },
+    "darkMode": {
+      "text": "#4ec9b0",
+      "italic": true
+    }
+  },
+  "propChange": {
+    "icon": "📥",
+    "lightMode": {
+      "text": "#267f99"
+    },
+    "darkMode": {
+      "text": "#4ec9b0"
+    }
+  },
+  "stateInitial": {
+    "icon": "📊",
+    "lightMode": {
+      "text": "#0451a5",
+      "italic": true
+    },
+    "darkMode": {
+      "text": "#9cdcfe",
+      "italic": true
+    }
+  },
+  "stateChange": {
+    "icon": "📊",
+    "lightMode": {
+      "text": "#0451a5"
+    },
+    "darkMode": {
+      "text": "#9cdcfe"
+    }
+  },
+  "logStatements": {
+    "icon": "📝",
+    "lightMode": {
+      "text": "#795e26"
+    },
+    "darkMode": {
+      "text": "#dcdcaa"
+    }
+  },
+  "warnStatements": {
+    "icon": "⚠️",
+    "lightMode": {
+      "text": "#a31515",
+      "bold": true
+    },
+    "darkMode": {
+      "text": "#ce9178",
+      "bold": true
+    }
+  },
+  "errorStatements": {
+    "icon": "❌",
+    "lightMode": {
+      "text": "#cd3131",
+      "background": "#f8d7da",
+      "bold": true
+    },
+    "darkMode": {
+      "text": "#f44747",
+      "background": "#3e2725",
+      "bold": true
+    }
+  },
+  "reconciled": {
+    "icon": "⚙️",
+    "lightMode": {
+      "text": "#008000"
+    },
+    "darkMode": {
+      "text": "#6a9955"
+    }
+  },
+  "skipped": {
+    "icon": "⏭️",
+    "lightMode": {
+      "text": "#008000"
+    },
+    "darkMode": {
+      "text": "#6a9955"
+    }
+  },
+  "identicalStateValueWarning": {
+    "icon": "⚠️",
+    "lightMode": {
+      "text": "#a31515",
+      "bold": true
+    },
+    "darkMode": {
+      "text": "#ce9178",
+      "bold": true
+    }
+  },
+  "identicalPropValueWarning": {
+    "icon": "⚠️",
+    "lightMode": {
+      "text": "#a31515",
+      "bold": true
+    },
+    "darkMode": {
+      "text": "#ce9178",
+      "bold": true
+    }
+  }
+}

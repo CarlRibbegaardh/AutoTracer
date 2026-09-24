@@ -1,0 +1,12 @@
+[submodule ".github/instructions"]
+	path = .github/instructions
+	url = https://thecarlr.visualstudio.com/DefaultCollection/AutoTracer/_git/Copilot%20Instructions
+[submodule "docs/work"]
+	path = docs/work
+	url = https://thecarlr.visualstudio.com/DefaultCollection/AutoTracer/_git/Documentation
+[submodule "reference/react18"]
+	path = reference/react18
+	url = https://github.com/facebook/react.git
+[submodule "reference/react19"]
+	path = reference/react19
+	url = https://github.com/facebook/react.git

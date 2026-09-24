@@ -1,0 +1,44 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+    submodules: false
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "24.x"
+    displayName: "Install Node.js"
+
+  - script: |
+      corepack enable
+      corepack prepare pnpm@latest --activate
+    displayName: "Enable and install pnpm"
+
+  - script: |
+      pnpm i
+      pnpm build
+    displayName: "Build the app"
+
+  - task: AzureStaticWebApp@0
+    displayName: "Deploy demo site"
+    inputs:
+      app_location: "packages/auto-tracer-demo/dist" # App source code path relative to cwd
+      api_location: "" # no api
+      skip_api_build: true
+      output_location: "" # Built app content directory relative to app_location - optional
+      cwd: "$(System.DefaultWorkingDirectory)" # Working directory - optional
+      azure_static_web_apps_api_token: $(deployment_token_demo)
+
+  - task: AzureStaticWebApp@0
+    displayName: "Deploy docs site"
+    inputs:
+      app_location: "packages/auto-tracer-docs/.vitepress/dist"
+      api_location: ""
+      skip_api_build: true
+      output_location: ""
+      cwd: "$(System.DefaultWorkingDirectory)"
+      azure_static_web_apps_api_token: $(deployment_token_docs)

@@ -1,0 +1,53 @@
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.card {
+  padding: 2em;
+}
+
+.section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: 1px solid #646cff;
+  border-radius: 8px;
+}
+
+.section h2 {
+  color: #646cff;
+  margin-top: 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.result {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.instructions {
+  background-color: #f7f7f7;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  font-size: 0.9em;
+}
+
+.instructions code {
+  background-color: #e6e6e6;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: monospace;
+}

@@ -1,0 +1,467 @@
+import { beforeEach, describe, expect, it } from "vitest";
+import { renderTree } from "../../../../../src/lib/functions/treeProcessing/rendering/renderTree";
+import type { TreeNode } from "../../../../../src/lib/functions/treeProcessing/types/TreeNode";
+import { traceOptions } from "../../../../../src/lib/types/globalState";
+import { applyOutputModeToReactTracerOptions } from "../../../../../src/lib/autoTracer/applyOutputModeToReactTracerOptions";
+
+/**
+ * Integration tests for marker rendering with visual depth calculation.
+ *
+ * These tests verify that:
+ * 1. Markers don't generate intermediate connectors
+ * 2. Visual depth is calculated based on filtered position
+ * 3. Original depth is preserved for debug labels
+ * 4. Multiple markers handle visual depth correctly
+ */
+
+/**
+ * Captures console.log calls during test execution
+ */
+function captureConsoleLogs(fn: () => void): string[] {
+  const logs: string[] = [];
+  const originalLog = console.log;
+
+  console.log = (...args: unknown[]) => {
+    logs.push(
+      args
+        .map((arg) => {
+          return String(arg);
+        })
+        .join(" "),
+    );
+  };
+
+  try {
+    fn();
+  } finally {
+    console.log = originalLog;
+  }
+
+  return logs;
+}
+
+/**
+ * Helper to get indent length from a string
+ * Note: The rendering code uses Unicode figure space (\u2007) for indentation
+ */
+function getIndentLength(line: string): number {
+  const match = line.match(/^(\u2007*)/);
+  if (!match || !match[1]) {
+    return 0;
+  }
+  return match[1].length;
+}
+
+/**
+ * Helper to create a marker node for testing
+ */
+function createMarkerNode(
+  depth: number,
+  count: number,
+  filteredNodeCount: number = count,
+): TreeNode {
+  return {
+    depth,
+    componentName: `... (${count} levels collapsed)`,
+    displayName: `... (${count} levels collapsed)`,
+    renderType: "Marker",
+    flags: 0,
+    stateChanges: [],
+    propChanges: [],
+    componentLogs: [],
+    isTracked: false,
+    trackingGUID: null,
+    hasIdenticalValueWarning: false,
+    filteredNodeCount,
+  };
+}
+
+/**
+ * Helper to create a rendering node for testing
+ */
+function createRenderingNode(
+  depth: number,
+  componentName: string,
+  hasStateChange = true,
+): TreeNode {
+  return {
+    depth,
+    componentName,
+    displayName: componentName,
+    renderType: "Rendering",
+    flags: 0,
+    stateChanges: hasStateChange
+      ? [
+          {
+            name: "todos",
+            value: [{ id: 1, text: "Test" }],
+            prevValue: [],
+            hook: {
+              memoizedState: [{ id: 1, text: "Test" }],
+              queue: null,
+              next: null,
+            },
+          },
+        ]
+      : [],
+    propChanges: [],
+    componentLogs: [],
+    isTracked: false,
+    trackingGUID: null,
+    hasIdenticalValueWarning: false,
+  };
+}
+
+/**
+ * Helper to create a reconciled node for testing
+ */
+function createReconciledNode(depth: number, componentName: string): TreeNode {
+  return {
+    depth,
+    componentName,
+    displayName: componentName,
+    renderType: "Reconciled",
+    flags: 0,
+    stateChanges: [],
+    propChanges: [],
+    componentLogs: [],
+    isTracked: false,
+    trackingGUID: null,
+    hasIdenticalValueWarning: false,
+  };
+}
+
+describe("Marker Rendering Integration Tests", () => {
+  beforeEach(() => {
+    // Reset trace options to default
+    Object.assign(
+      traceOptions,
+      applyOutputModeToReactTracerOptions("copy-paste"),
+    );
+    traceOptions.showLevelDetails = false;
+  });
+
+  describe("Scenario 1: Single marker with content node", () => {
+    it("should render marker and component with no intermediate connectors", () => {
+      const nodes: readonly TreeNode[] = [
+        createMarkerNode(1, 21),
+        createRenderingNode(22, "TodoList"),
+      ];
+
+      const logs = captureConsoleLogs(() => {
+        renderTree(nodes);
+      });
+
+      // Filter out empty lines
+      const output = logs.filter((line) => {
+        return line.trim().length > 0;
+      });
+
+      // Should have exactly marker + component line + state change line (no intermediate connectors)
+      // Marker line, component line, and state change details
+      expect(output.length).toBeGreaterThanOrEqual(2);
+      expect(output.length).toBeLessThan(23); // Should NOT have 21 intermediate connectors
+
+      const fullOutput = output.join("\n");
+
+      // Should contain marker
+      expect(fullOutput).toContain("21 levels collapsed");
+
+      // Should contain component
+      expect(fullOutput).toContain("[TodoList]");
+      expect(fullOutput).toContain("Rendering");
+
+      // Verify visual indentation
+      const markerLine = output.find((line) => {
+        return line.includes("21 levels collapsed");
+      });
+      const componentLine = output.find((line) => {
+        return line.includes("[TodoList]");
+      });
+
+      expect(markerLine).toBeDefined();
+      expect(componentLine).toBeDefined();
+
+      // Marker should have no leading spaces (visual depth 0)
+      expect(getIndentLength(markerLine!)).toBe(0);
+
+      // Component should have 2 spaces indent (visual depth 1)
+      expect(getIndentLength(componentLine!)).toBe(2);
+
+      // Should NOT have 21 connector lines between marker and component
+      const connectorLines = output.filter((line) => {
+        return line.includes("└─┐") && !line.includes("levels collapsed");
+      });
+      expect(connectorLines.length).toBe(0);
+    });
+  });
+
+  describe("Scenario 2: Marker with debug labels enabled", () => {
+    it("should show original depths in labels while using visual depths for indentation", () => {
+      traceOptions.showLevelDetails = true;
+
+      const nodes: readonly TreeNode[] = [
+        createMarkerNode(1, 21, 21),
+        createRenderingNode(22, "TodoList"),
+      ];
+
+      const logs = captureConsoleLogs(() => {
+        renderTree(nodes);
+      });
+
+      const output = logs.filter((line) => {
+        return line.trim().length > 0;
+      });
+      const fullOutput = output.join("\n");
+
+      // Should show next node's depth and filtered node count in debug mode
+      expect(fullOutput).toContain("Level: 22");
+      expect(fullOutput).toContain("Filtered nodes: 21");
+
+      // Components no longer show level labels (only markers and connectors do)
+      // The component should just show: ├─ [TodoList] Rendering
+      expect(fullOutput).toContain("[TodoList] Rendering");
+
+      // Verify visual indentation still correct
+      const componentLine = output.find((line) => {
+        return line.includes("[TodoList]");
+      });
+      expect(componentLine).toBeDefined();
+
+      // Component should have 2 spaces indent (visual depth 1), not 44 spaces (original depth 22)
+      const indent = getIndentLength(componentLine!);
+      expect(indent).toBe(2); // Visual depth 1
+      expect(indent).not.toBe(44); // NOT original depth 22 * 2
+    });
+  });
+
+  describe("Scenario 3: Multiple markers in sequence", () => {
+    it("should handle multiple markers with correct visual depths", () => {
+      traceOptions.showLevelDetails = false; // Ensure we see "levels collapsed" text
+
+      // Tree structure:
+      // Marker (depths 1-5) - represents empty parent levels
+      //   TodoList (depth 6) - child of collapsed levels
+      //   Marker (depths 7-9) - SIBLING to TodoList (represents collapsed space)
+      //     TodoItem (depth 10) - child of second marker
+      const nodes: readonly TreeNode[] = [
+        createMarkerNode(1, 5),
+        createRenderingNode(6, "TodoList"),
+        createMarkerNode(7, 3),
+        createRenderingNode(10, "TodoItem"),
+      ];
+
+      const logs = captureConsoleLogs(() => {
+        renderTree(nodes);
+      });
+
+      const output = logs.filter((line) => {
+        return line.trim().length > 0;
+      });
+      const fullOutput = output.join("\n");
+
+      // Should contain both markers
+      expect(fullOutput).toContain("5 levels collapsed");
+      expect(fullOutput).toContain("3 levels collapsed");
+
+      // Should contain both components
+      expect(fullOutput).toContain("[TodoList]");
+      expect(fullOutput).toContain("[TodoItem]");
+
+      // Find the lines
+      const firstMarkerLine = output.find((line) => {
+        return line.includes("5 levels collapsed");
+      });
+      const todoListLine = output.find((line) => {
+        return line.includes("[TodoList]");
+      });
+      const secondMarkerLine = output.find((line) => {
+        return line.includes("3 levels collapsed");
+      });
+      const todoItemLine = output.find((line) => {
+        return line.includes("[TodoItem]");
+      });
+
+      expect(firstMarkerLine).toBeDefined();
+      expect(todoListLine).toBeDefined();
+      expect(secondMarkerLine).toBeDefined();
+      expect(todoItemLine).toBeDefined();
+
+      // First marker: visual depth 0 (0 spaces)
+      expect(getIndentLength(firstMarkerLine!)).toBe(0);
+
+      // TodoList: visual depth 1 (2 spaces) - child of first marker
+      expect(getIndentLength(todoListLine!)).toBe(2);
+
+      // Second marker: visual depth 1 (2 spaces) - sibling to TodoList component
+      expect(getIndentLength(secondMarkerLine!)).toBe(2);
+
+      // TodoItem: visual depth 2 (4 spaces) - child of second marker
+      expect(getIndentLength(todoItemLine!)).toBe(4);
+
+      // Should NOT have extra connectors
+      const connectorLines = output.filter((line) => {
+        return (
+          line.includes("└─┐") &&
+          !line.includes("levels collapsed") &&
+          line.trim() === "└─┐"
+        );
+      });
+      expect(connectorLines.length).toBe(0);
+    });
+  });
+
+  describe("Scenario 3b: Marker going UP the tree (lower original level)", () => {
+    it("should decrease visual depth when marker level < previous component level", () => {
+      traceOptions.showLevelDetails = false; // Ensure we see "levels collapsed" text
+
+      // Tree structure matching the real app output:
+      // Marker (level 1-5) - root marker
+      //   TodoList (level 6) - child of marker
+      //     Child1 (level 7) - child of TodoList
+      //   Marker (level 6) - BACK UP to same level as TodoList (sibling)
+      //     Child2 (level 7) - child of second marker
+      const nodes: readonly TreeNode[] = [
+        createMarkerNode(1, 5),
+        createRenderingNode(6, "TodoList"),
+        createRenderingNode(7, "Child1"),
+        createMarkerNode(6, 1), // Marker at level 6 after component at level 7 (going UP)
+        createRenderingNode(7, "Child2"),
+      ];
+
+      const logs = captureConsoleLogs(() => {
+        renderTree(nodes);
+      });
+
+      const output = logs.filter((line) => {
+        return line.trim().length > 0;
+      });
+
+      // Find the lines
+      const firstMarkerLine = output.find((line) => {
+        return line.includes("5 levels collapsed");
+      });
+      const todoListLine = output.find((line) => {
+        return line.includes("[TodoList]");
+      });
+      const child1Line = output.find((line) => {
+        return line.includes("[Child1]");
+      });
+      const secondMarkerLine = output.find((line) => {
+        return line.includes("1 levels collapsed");
+      });
+      const child2Line = output.find((line) => {
+        return line.includes("[Child2]");
+      });
+
+      expect(firstMarkerLine).toBeDefined();
+      expect(todoListLine).toBeDefined();
+      expect(child1Line).toBeDefined();
+      expect(secondMarkerLine).toBeDefined();
+      expect(child2Line).toBeDefined();
+
+      // First marker: visual depth 0
+      expect(getIndentLength(firstMarkerLine!)).toBe(0);
+
+      // TodoList: visual depth 1 (child of first marker)
+      expect(getIndentLength(todoListLine!)).toBe(2);
+
+      // Child1: visual depth 2 (child of TodoList, original level 7 > 6)
+      expect(getIndentLength(child1Line!)).toBe(4);
+
+      // Second marker at level 6 after Child1 at level 7:
+      // Going UP by 1 level, so visual depth: 2 - 1 = 1
+      expect(getIndentLength(secondMarkerLine!)).toBe(2);
+
+      // Child2: visual depth 2 (child of second marker)
+      expect(getIndentLength(child2Line!)).toBe(4);
+    });
+  });
+
+  describe("Scenario 4: No filtering (no markers present)", () => {
+    it("should render with visual depth equal to original depth", () => {
+      const nodes: readonly TreeNode[] = [
+        createReconciledNode(0, "Provider"),
+        createReconciledNode(1, "Theme"),
+        createRenderingNode(2, "TodoList"),
+      ];
+
+      const logs = captureConsoleLogs(() => {
+        renderTree(nodes);
+      });
+
+      const output = logs.filter((line) => {
+        return line.trim().length > 0;
+      });
+
+      // Find component lines
+      const providerLine = output.find((line) => {
+        return line.includes("[Provider]");
+      });
+      const themeLine = output.find((line) => {
+        return line.includes("[Theme]");
+      });
+      const todoListLine = output.find((line) => {
+        return line.includes("[TodoList]");
+      });
+
+      expect(providerLine).toBeDefined();
+      expect(themeLine).toBeDefined();
+      expect(todoListLine).toBeDefined();
+
+      // Visual depth should equal original depth
+      // Provider: depth 0 = 0 spaces
+      expect(getIndentLength(providerLine!)).toBe(0);
+
+      // Theme: depth 1 = 2 spaces
+      expect(getIndentLength(themeLine!)).toBe(2);
+
+      // TodoList: depth 2 = 4 spaces
+      expect(getIndentLength(todoListLine!)).toBe(4);
+    });
+  });
+
+  describe("Edge case: Marker followed immediately by another marker", () => {
+    it("should handle consecutive markers at same visual depth", () => {
+      traceOptions.showLevelDetails = false; // Ensure we see "levels collapsed" text
+
+      const nodes: readonly TreeNode[] = [
+        createMarkerNode(1, 5),
+        createMarkerNode(6, 3),
+        createRenderingNode(9, "TodoList"),
+      ];
+
+      const logs = captureConsoleLogs(() => {
+        renderTree(nodes);
+      });
+
+      const output = logs.filter((line) => {
+        return line.trim().length > 0;
+      });
+
+      const firstMarkerLine = output.find((line) => {
+        return line.includes("5 levels collapsed");
+      });
+      const secondMarkerLine = output.find((line) => {
+        return line.includes("3 levels collapsed");
+      });
+      const todoListLine = output.find((line) => {
+        return line.includes("[TodoList]");
+      });
+
+      expect(firstMarkerLine).toBeDefined();
+      expect(secondMarkerLine).toBeDefined();
+      expect(todoListLine).toBeDefined();
+
+      // First marker: visual depth 0
+      expect(getIndentLength(firstMarkerLine!)).toBe(0);
+
+      // Second marker: visual depth 0 (sibling to first marker)
+      // Markers after markers are siblings (both represent collapsed space)
+      expect(getIndentLength(secondMarkerLine!)).toBe(0);
+
+      // TodoList: visual depth 1 (child of second marker)
+      expect(getIndentLength(todoListLine!)).toBe(2);
+    });
+  });
+});

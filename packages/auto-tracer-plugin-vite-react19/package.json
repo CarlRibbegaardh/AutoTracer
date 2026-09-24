@@ -1,0 +1,63 @@
+{
+  "name": "@autotracer/plugin-vite-react19",
+  "version": "1.0.0-alpha.55",
+  "description": "Vite plugin for auto-injecting useReactTracer in React 19 applications",
+  "author": "Carl Ribbegårdh",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "pnpm run check:typescript6 && tsc",
+    "prebuild": "pnpm run clean",
+    "postbuild": "tsc --project ./tests/tsconfig.json --noEmit && pnpm run check:typescript6:consumer",
+    "check:typescript6": "tsc6 --project tsconfig.typescript6.json",
+    "check:typescript6:consumer": "tsc6 --project tests/typescript6-consumer/tsconfig.json",
+    "clean": "rimraf dist coverage",
+    "lint": "oxlint src tests",
+    "lint:fix": "oxlint src tests --fix",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@autotracer/inject-react19": "workspace:*",
+    "@autotracer/react19": "workspace:*",
+    "rollup-plugin-external-globals": "^0.13.0",
+    "unplugin": "3.3.0"
+  },
+  "peerDependencies": {
+    "@autotracer/react19": "1.0.0-alpha.55",
+    "vite": "8.2.1"
+  },
+  "peerDependenciesMeta": {
+    "@autotracer/react19": {
+      "optional": false
+    },
+    "vite": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "@typescript/typescript6": "~6.0.2",
+    "@vitest/coverage-v8": "4.1.10",
+    "jsdom": "^24.1.0",
+    "oxlint": "1.77.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.61.1",
+    "typescript": "~7.0.2",
+    "vite": "8.2.1",
+    "vitest": "4.1.10"
+  },
+  "sideEffects": false
+}

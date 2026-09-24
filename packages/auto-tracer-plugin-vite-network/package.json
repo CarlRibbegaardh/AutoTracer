@@ -1,0 +1,61 @@
+{
+  "name": "@autotracer/plugin-vite-network",
+  "version": "1.0.0-alpha.55",
+  "description": "Vite bootstrap integration for AutoTracer network tracing",
+  "author": "Carl Ribbegårdh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CarlRibbegaardh/AutoTracer"
+  },
+  "bugs": {
+    "url": "https://github.com/CarlRibbegaardh/AutoTracer/issues"
+  },
+  "homepage": "https://github.com/CarlRibbegaardh/AutoTracer",
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "pnpm run clean",
+    "postbuild": "tsc --project ./tests/tsconfig.json --noEmit",
+    "clean": "rimraf dist coverage",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "peerDependencies": {
+    "@autotracer/network": "workspace:*",
+    "vite": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@autotracer/network": {
+      "optional": false
+    },
+    "vite": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@autotracer/network": "workspace:*",
+    "@types/node": "^22.12.0",
+    "@vitest/coverage-v8": "4.1.10",
+    "rimraf": "^6.0.1",
+    "rollup": "4.61.1",
+    "typescript": "~5.5.3",
+    "vite": "8.2.1",
+    "vitest": "4.1.10"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,15 @@
+export type { TransformConfig } from "./interfaces/TransformConfig.js";
+export type { TransformContext } from "./interfaces/TransformContext.js";
+export * from "./interfaces/ComponentInfo.js";
+export * from "./interfaces/TransformConfig.js";
+export * from "./interfaces/TransformResult.js";
+export * from "./interfaces/TransformContext.js";
+export { DEFAULT_CONFIG } from "./functions/config/DEFAULT_CONFIG.js";
+export { normalizeConfig } from "./functions/config/normalizeConfig.js";
+export { matchesPattern } from "./functions/config/matchesPattern.js";
+export { shouldProcessFile } from "./functions/config/shouldProcessFile.js";
+export { shouldInstrumentComponent } from "./functions/config/shouldInstrumentComponent.js";
+export { isComponentFunction } from "./functions/detect/isComponentFunction.js";
+export { extractComponentInfo } from "./functions/detect/extractComponentInfo.js";
+export { hasExistingUseReactTracerImport } from "./functions/detect/hasExistingUseReactTracerImport.js";
+export * from "./functions/transform/transform.js";

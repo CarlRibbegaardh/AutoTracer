@@ -1,0 +1,57 @@
+{
+  "functionEnter": {
+    "icon": "→",
+    "darkMode": {
+      "text": "#61afef",
+      "bold": true
+    }
+  },
+  "functionExit": {
+    "icon": "←",
+    "darkMode": {
+      "text": "#61afef",
+      "bold": true
+    }
+  },
+  "asyncStart": {
+    "icon": "→",
+    "darkMode": {
+      "text": "#61afef",
+      "bold": true
+    }
+  },
+  "asyncComplete": {
+    "icon": "←",
+    "darkMode": {
+      "text": "#61afef",
+      "bold": true
+    }
+  },
+  "parameter": {
+    "icon": "",
+    "darkMode": {
+      "text": "#d19a66",
+      "italic": true
+    }
+  },
+  "returnValue": {
+    "icon": "",
+    "darkMode": {
+      "text": "#98c379"
+    }
+  },
+  "exception": {
+    "icon": "💥",
+    "darkMode": {
+      "text": "#e06c75",
+      "background": "#3e2c2e",
+      "bold": true
+    }
+  },
+  "runtimeControl": {
+    "icon": "🔧",
+    "darkMode": {
+      "text": "#5c6370"
+    }
+  }
+}

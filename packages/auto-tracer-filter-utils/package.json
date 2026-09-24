@@ -1,0 +1,48 @@
+{
+  "name": "@autotracer/filter-utils",
+  "version": "1.0.0-alpha.55",
+  "description": "Shared filtering utilities for Flow and React tracing (internal monorepo package)",
+  "author": "Carl Ribbegårdh",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "pnpm run clean",
+    "postbuild": "tsc --project ./tests/tsconfig.json --noEmit",
+    "clean": "rimraf dist coverage",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "minimatch": "^10.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
+    "@vitest/coverage-v8": "^4.0.18",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-sort-exports": "^0.9.1",
+    "rimraf": "^6.0.1",
+    "rollup": "4.61.1",
+    "typescript": "~5.5.3",
+    "vitest": "^4.0.18"
+  }
+}

@@ -1,0 +1,140 @@
+/**
+ * Custom styles for AutoTracer documentation site
+ *
+ * This file contains custom CSS overrides and extensions
+ * to the default VitePress theme.
+ */
+
+/**
+ * Custom feature grid for "Choose Your Path" section
+ */
+.vp-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.vp-feature {
+  padding: 1.5rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.vp-feature:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.vp-feature h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--vp-c-brand-1);
+}
+
+.vp-feature p {
+  margin: 1rem 0;
+  color: var(--vp-c-text-2);
+}
+
+.vp-feature a {
+  display: inline-block;
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.vp-feature a:hover {
+  color: var(--vp-c-brand-2);
+}
+
+/**
+ * Enhanced code blocks for tracing examples
+ */
+.vp-doc div[class*="language-"] {
+  margin: 1rem 0;
+}
+
+/**
+ * Custom table styling for package list
+ */
+.vp-doc table {
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+.vp-doc table th {
+  text-align: left;
+  font-weight: 600;
+}
+
+.vp-doc table td img {
+  vertical-align: middle;
+}
+
+.dashboard-screenshot-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.dashboard-screenshot-card,
+.dashboard-toggle-card {
+  margin: 0;
+}
+
+.dashboard-screenshot-image,
+.dashboard-toggle-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-screenshot-image-dark,
+.dashboard-toggle-image.dashboard-screenshot-image-dark {
+  display: none;
+}
+
+html.dark .dashboard-screenshot-image-light,
+html.dark .dashboard-toggle-image.dashboard-screenshot-image-light {
+  display: none;
+}
+
+html.dark .dashboard-screenshot-image-dark,
+html.dark .dashboard-toggle-image.dashboard-screenshot-image-dark {
+  display: block;
+}
+
+.dashboard-screenshot-card figcaption,
+.dashboard-toggle-card figcaption {
+  margin-top: 0.75rem;
+  color: var(--vp-c-text-2);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.dashboard-toggle-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 120px));
+  gap: 1rem;
+  margin: 1rem 0 1.5rem;
+}
+
+/**
+ * Responsive adjustments
+ */
+@media (max-width: 768px) {
+  .vp-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-screenshot-gallery {
+    grid-template-columns: 1fr;
+  }
+}

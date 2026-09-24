@@ -1,0 +1,58 @@
+{
+  "name": "@autotracer/dashboard",
+  "version": "1.0.0-alpha.55",
+  "description": "Runtime dashboard widget for AutoTracer with hotkey controls",
+  "author": "Carl Ribbegårdh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CarlRibbegaardh/AutoTracer"
+  },
+  "bugs": {
+    "url": "https://github.com/CarlRibbegaardh/AutoTracer/issues"
+  },
+  "homepage": "https://github.com/CarlRibbegaardh/AutoTracer",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc && vite build",
+    "prebuild": "pnpm run clean",
+    "postbuild": "tsc --project ./tests/tsconfig.json --noEmit",
+    "clean": "rimraf dist coverage",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "pnpm run lint --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
+    "@vitest/coverage-v8": "^4.0.18",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-sort-exports": "^0.9.1",
+    "jsdom": "^24.1.0",
+    "rimraf": "^6.0.1",
+    "rollup": "4.61.1",
+    "typescript": "~5.5.3",
+    "vite": "^5.3.3",
+    "vitest": "^4.0.18"
+  }
+}
